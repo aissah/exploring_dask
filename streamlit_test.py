@@ -1,8 +1,10 @@
-import streamlit as st
 import plotly.express as px
+import streamlit as st
+
 
 def create_blank_grid(size):
     return [[0] * size for _ in range(size)]
+
 
 def main():
     st.title("Grid Input App")
@@ -14,7 +16,9 @@ def main():
     grid = create_blank_grid(grid_size)
 
     # Display the grid using Plotly
-    fig = px.imshow(grid, binary_string=True, labels=dict(color="Click on the cells to toggle"))
+    fig = px.imshow(
+        grid, binary_string=True, labels=dict(color="Click on the cells to toggle")
+    )
     fig.update_layout(width=400, height=400)
 
     # Show the Plotly figure
@@ -35,6 +39,7 @@ def main():
         # Display the updated grid
         st.write("Updated Grid:")
         st.write(grid)
+
 
 if __name__ == "__main__":
     if "mouse_click_data" not in st.session_state:
