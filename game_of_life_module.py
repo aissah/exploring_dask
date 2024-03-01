@@ -44,4 +44,3 @@ class GameOfLife:
 
         self.previous_state = self.current_state
         self.current_state = next_state.compute()
-
