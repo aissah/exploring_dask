@@ -92,29 +92,27 @@ st.markdown(
 
 st.write('Conway\'s Game of Life is a cellular automaton devised by the British mathematician John Horton Conway in 1970. It is a zero-player game, meaning that its evolution is determined by its initial state, requiring no further input. One interacts with the Game of Life by creating an initial configuration and observing how it evolves.')
 
-st.write('The universe of the Game of Life is an infinite, two-dimensional orthogonal grid of square cells, each of which is in one of two possible states, live or dead. Every cell interacts with its eight neighbours, which are the cells that are horizontally, vertically, or diagonally adjacent. At each step in time, the following transitions occur:')
-st.write('1. Any live cell with fewer than two live neighbours dies, as if by underpopulation.')
-st.write('2. Any live cell with two or three live neighbours lives on to the next generation.')
-st.write('3. Any live cell with more than three live neighbours dies, as if by overpopulation.')
-st.write('4. Any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction.')
+st.write('The universe of the Game of Life is an infinite, two-dimensional orthogonal grid of square cells, each of which is in one of two possible states, live or dead. Every cell interacts with its eight neighbours, which are the cells that are horizontally, vertically, or diagonally adjacent.')
 
 st.write('The initial pattern constitutes the seed of the system. The first generation is created by applying the above rules simultaneously to every cell in the seed — births and deaths occur simultaneously - , and the discrete moment at which this happens is sometimes called a tick (in other words, each generation is a pure function of the preceding one). The rules continue to be applied repeatedly to create further generations.')
 
 st.write('The video above shows an instance of the game of life. The app below can be used to generate generations of an input initial state one at a time or as an animation.')
 
-# Set up the controls
-# st.sidebar.title('Controls')
-# st.sidebar.write('You can change the initial state of the grid by clicking on the cells.')
-# st.sidebar.write('You can also change the size of the grid below.')
+st.sidebar.title('Rules')
+st.sidebar.write('At each step in time, the following transitions occur:')
+st.sidebar.write('1. Any live cell with fewer than two live neighbours dies, as if by underpopulation.')
+st.sidebar.write('2. Any live cell with two or three live neighbours lives on to the next generation.')
+st.sidebar.write('3. Any live cell with more than three live neighbours dies, as if by overpopulation.')
+st.sidebar.write('4. Any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction.')
 
+st.sidebar.title('Legend')
+st.sidebar.write('White or 0: Dead cell')
+st.sidebar.write('Black or 1: Live cell')
 
+# Set up columns for input
 c1, c2 = st.columns((1, 2))
 
-# d1, d2 = st.columns((2, 1))
-
-
-
-
+# Set up for controling states and animation
 f1, f2, f3 = st.columns((3, 2, 3))
 
 f3.header("Current State")
@@ -122,15 +120,8 @@ f1.header("Previous State")
 f2.header("Controls")
 
 
-
 with c1:
     container = st.container(border=True)
-    # c11, c12 = container.columns((2, 3))
-    # Set up the reset button
-    # Set up the grid size slider
-    # row_size = c11.slider('Row Size', 10, 100, 10)
-    # column_size = c11.slider('Column Size', 10, 100, 10)
-    # prob = c11.slider('Probability of 1s', 0.0, 1.0, 0.5)
     row_size = container.slider('Row Size', 10, 100, 10)
     game.rows = row_size
     st.session_state.game = game
@@ -142,8 +133,6 @@ with c1:
     st.session_state.game = game
     container.write('Create initial state that can be edited by clicking grid')
     init_state = container.radio('Intialize with', ['Random', 'zeros', 'ones'], index=None)
-
-    
 
     if init_state in ['Random', 'zeros', 'ones'] or "init_flag" in st.session_state:
         if container.button('Initialize') and init_state in ['Random', 'zeros', 'ones']:
@@ -188,7 +177,7 @@ with c1:
             )
             st.session_state.ag = ag
 
-if c1.button('Accept Current State'):
+if c1.button('Accept Initial State'):
     
     # game.update(1)
     game.current_state = np.array(ag['data'], dtype=int)
@@ -365,8 +354,8 @@ if f2.button('Next State'):
 # st.pyplot(ani._fig, clear_figure=False)
 
 # Set up the author
-st.sidebar.title('Author')
-st.sidebar.write('This app was created by [Hafiz Issah]()).')
+# st.sidebar.title('Author')
+# st.sidebar.write('This app was created by [Hafiz Issah]()).')
 
 with f2.container(border=True):
     # st.title('For Animation')
