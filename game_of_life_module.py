@@ -15,42 +15,9 @@ class GameOfLife:
         self.previous_state = np.zeros((rows, columns), dtype=int)
         if randomize:
             self.randomize()
-        # self.fig, self.ax = plt.subplots()
-        # self.im = plt.imshow(self.current_state, cmap='gray', interpolation='nearest')
-        # self.ani = animation.FuncAnimation(self.fig, self.update, frames=100, interval=50, blit=True)
-        # plt.show()
 
     def randomize(self):
         self.current_state = np.random.randint(2, size=(self.rows, self.columns))
-
-    def update(self, frame):
-        # new_current_state = np.zeros((self.rows, self.columns), dtype=int)
-        # for i in range(self.rows):
-        #     for j in range(self.columns):
-        #         new_current_state[i, j] = self.update_cell(i, j)
-        # self.current_state = new_current_state
-        self.life_epoch()
-        # self.im.set_array(self.current_state)
-        return (self.im,)
-
-    # def update_cell(self, i, j):
-    #     count = 0
-    #     for x in range(-1, 2):
-    #         for y in range(-1, 2):
-    #             if x == 0 and y == 0:
-    #                 continue
-    #             if self.current_state[(i + x) % self.size, (j + y) % self.size] == 1:
-    #                 count += 1
-    #     if self.current_state[i, j] == 1:
-    #         if count < 2 or count > 3:
-    #             return 0
-    #         else:
-    #             return 1
-    #     else:
-    #         if count == 3:
-    #             return 1
-    #         else:
-    #             return 0
 
     def neighbor_sum(self, row_index: int, column_index: int) -> int:
         """Returns the sum of the 8 neighbors of the element at row_index, column_index."""
@@ -78,8 +45,3 @@ class GameOfLife:
         self.previous_state = self.current_state
         self.current_state = next_state.compute()
 
-    def initiate_life(self) -> np.array:
-        """Returns a random 2D array of size row_size x column_size with prob probability of 1s."""
-        return np.random.choice(
-            [0, 1], size=(self.rows, self.rows), p=[1 - self.prob, self.prob]
-        )

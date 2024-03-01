@@ -64,7 +64,6 @@ class CheckboxRenderer{
 
 # # Set up the animation
 def animate(i):
-    # game.update(i)
     game.life_epoch()
     ax.imshow(game.current_state, cmap=cmap, animated=True)
     ax.get_xaxis().set_ticks([])
@@ -72,19 +71,21 @@ def animate(i):
     # ax.axis('off')
 
 
-if not os.path.isfile("GameOLife.gif"):
+if not os.path.isfile("Intro_gif.gif"):
+    game.randomize()
     ani = animation.FuncAnimation(fig, animate, frames=50, interval=100)
 
     with st.spinner("Preparing animation..."):
         # components.html(ani.to_jshtml(), height=550)
-        # ani.save('D:\CSM\Mines_Research\Repositories\exploring_dask\GameOLife.gif', writer=PillowWriter())
-        ani.save("GameOLife.gif", writer=PillowWriter())
+        ani.save("Intro_gif.gif", writer=PillowWriter())
+        # ani.save("GameOLife.gif", writer=PillowWriter())
 
 
 # Set up the streamlit app
 st.title("Game of Life")
 
-file_ = open(r"D:\CSM\Mines_Research\Repositories\exploring_dask\GameOLife.gif", "rb")
+# file_ = open(r"D:\CSM\Mines_Research\Repositories\exploring_dask\Intro_gif.gif", "rb")
+file_ = open(r"Intro_gif.gif", "rb")
 contents = file_.read()
 data_url = base64.b64encode(contents).decode("utf-8")
 file_.close()
@@ -200,7 +201,6 @@ with c1:
             st.session_state.ag = ag
 
 if c1.button("Accept Initial State"):
-    # game.update(1)
     game.current_state = np.array(ag["data"], dtype=int)
     fig, ax = plt.subplots()
     ax.imshow(game.current_state, cmap=cmap)
@@ -217,7 +217,6 @@ if f2.button("Next State"):
     ax.get_yaxis().set_ticks([])
     f1.pyplot(fig, clear_figure=False)
 
-    # game.update(1)
     game.life_epoch()
     fig, ax = plt.subplots()
     ax.imshow(game.current_state, cmap=cmap)
