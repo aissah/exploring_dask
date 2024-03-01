@@ -26,10 +26,7 @@ st.set_page_config(layout="wide")
 
 # Set up the plot
 fig, ax = plt.subplots()
-# cmap = colors.ListedColormap(['black', 'white'])
 cmap = colors.ListedColormap(['white','black'])
-# ax.imshow(game.current_state, cmap=cmap)
-# ax.axis('off')
 
 checkbox_renderer = JsCode("""
 class CheckboxRenderer{
@@ -70,45 +67,15 @@ def animate(i):
     ax.get_yaxis().set_ticks([])
     # ax.axis('off')
 
-# fig = plt.figure(figsize=(6, 6))
 
 if not os.path.isfile('GameOLife.gif'):
-    ani = animation.FuncAnimation(fig, animate, frames=20, interval=100)
+    ani = animation.FuncAnimation(fig, animate, frames=50, interval=100)
 
     with st.spinner("Preparing animation..."):
         # components.html(ani.to_jshtml(), height=550)
         # ani.save('D:\CSM\Mines_Research\Repositories\exploring_dask\GameOLife.gif', writer=PillowWriter())
         ani.save('GameOLife.gif', writer=PillowWriter())
 
-
-# df = pd.DataFrame.from_records(np.array(game.current_state, dtype=bool))
-# df.columns = [str(a) for a in df.columns]
-
-# # st.write('#### init data')
-# # st.dataframe(df)
-
-# gb = GridOptionsBuilder.from_dataframe(df)
-# for col in df.columns:
-#     gb.configure_column(col, editable=True, cellRenderer=checkbox_renderer)
-
-
-# st.write('#### interface')
-# ag = AgGrid(
-#     df, 
-#     gridOptions=gb.build(),
-#     fit_columns_on_grid_load=True,
-#     update_mode=GridUpdateMode.MANUAL,
-#     allow_unsafe_jscode=True,
-#     enable_enterprise_modules=False,
-#     theme='alpine',
-# )
-
-# with st.spinner("Preparing animation..."):
-    #     animation.save('files/pendulum.gif', writer=PillowWriter())
-    # st.image("files/pendulum.gif")
-
-# ani.save('D:\CSM\Mines_Research\Repositories\exploring_dask\GameOLife.gif', writer='imagemagick')
-# ani.save('GameOLife.gif', writer='pillow')
 
 # Set up the streamlit app
 st.title('Game of Life')
@@ -131,41 +98,14 @@ st.write('2. Any live cell with two or three live neighbours lives on to the nex
 st.write('3. Any live cell with more than three live neighbours dies, as if by overpopulation.')
 st.write('4. Any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction.')
 
-st.write('The initial pattern constitutes the seed of the system. The first generation is created by applying the above rules simultaneously to every cell in the seed—births and deaths occur simultaneously, and the discrete moment at which this happens is sometimes called a tick (in other words, each generation is a pure function of the preceding one). The rules continue to be applied repeatedly to create further generations.')
+st.write('The initial pattern constitutes the seed of the system. The first generation is created by applying the above rules simultaneously to every cell in the seed — births and deaths occur simultaneously - , and the discrete moment at which this happens is sometimes called a tick (in other words, each generation is a pure function of the preceding one). The rules continue to be applied repeatedly to create further generations.')
 
-st.write('The app below shows the game of life in action. The grid is updated every 50 milliseconds. You can also change the initial state of the grid by clicking on the cells.')
-
-
-# with st.spinner("Preparing animation..."):
-#     components.html(ani.to_jshtml(), height=1000)
-
-# plt.show()
-
-
-# st.image('D:\CSM\Mines_Research\Repositories\exploring_dask\GameOLife.gif')
-# st.pyplot(ani._fig, clear_figure=False)
+st.write('The video above shows an instance of the game of life. The app below can be used to generate generations of an input initial state one at a time or as an animation.')
 
 # Set up the controls
-st.sidebar.title('Controls')
-st.sidebar.write('You can change the initial state of the grid by clicking on the cells.')
-st.sidebar.write('You can also change the size of the grid below.')
-
-# Set up the grid size slider
-# row_size = st.sidebar.slider('Row Size', 10, 100, 10)
-# column_size = st.sidebar.slider('Column Size', 10, 100, 10)
-# prob = st.sidebar.slider('Probability of 1s', 0.0, 1.0, 0.5)
-
-# current_state = np.random.choice([0, 1], (row_size, column_size), p=[1-prob, prob])
-# fig, ax = plt.subplots()
-# cmap = colors.ListedColormap(['black', 'white'])
-# ax.imshow(current_state, cmap=cmap)
-# ax.axis('off')
-# ani = animation.FuncAnimation(fig, animate, frames=100, interval=50)
-# st.pyplot(ani._fig, clear_figure=False)
-
-
-# current_state = np.random.choice([0, 1], (row_size, column_size), p=[1-prob, prob])
-# st.write(game.current_state)
+# st.sidebar.title('Controls')
+# st.sidebar.write('You can change the initial state of the grid by clicking on the cells.')
+# st.sidebar.write('You can also change the size of the grid below.')
 
 
 c1, c2 = st.columns((1, 2))
@@ -173,15 +113,7 @@ c1, c2 = st.columns((1, 2))
 # d1, d2 = st.columns((2, 1))
 
 
-if st.button('Accept Current State'):
-    
-    # game.update(1)
-    game.current_state = np.array(ag['data'], dtype=int)
-    fig, ax = plt.subplots()
-    ax.imshow(game.current_state, cmap=cmap)
-    ax.get_xaxis().set_ticks([])
-    ax.get_yaxis().set_ticks([])
-    f3.pyplot(fig, clear_figure=False)
+
 
 f1, f2, f3 = st.columns((3, 2, 3))
 
@@ -200,13 +132,36 @@ with c1:
     # column_size = c11.slider('Column Size', 10, 100, 10)
     # prob = c11.slider('Probability of 1s', 0.0, 1.0, 0.5)
     row_size = container.slider('Row Size', 10, 100, 10)
+    game.rows = row_size
+    st.session_state.game = game
     column_size = container.slider('Column Size', 10, 100, 10)
+    game.columns = column_size
+    st.session_state.game = game
     prob = container.slider('Probability of 1s', 0.0, 1.0, 0.5)
+    game.prob = prob
+    st.session_state.game = game
     container.write('Create initial state that can be edited by clicking grid')
-    if container.button('Initialize zeros'):
-        game = GameOfLife(rows=row_size, columns=column_size, prob=prob, randomize=False)
-        st.session_state.game = game
+    init_state = container.radio('Intialize with', ['Random', 'zeros', 'ones'], index=None)
 
+    
+
+    if init_state in ['Random', 'zeros', 'ones'] or "init_flag" in st.session_state:
+        if container.button('Initialize') and init_state in ['Random', 'zeros', 'ones']:
+            if init_state == 'Random':
+                game.randomize()
+                st.session_state.game = game
+                st.session_state.init_flag = 1
+                del st.session_state['ag']
+            elif init_state == 'zeros':
+                game.current_state = np.zeros((row_size, column_size), dtype=int)
+                st.session_state.game = game
+                st.session_state.init_flag = 1
+                del st.session_state['ag']
+            elif init_state == 'ones':
+                game.current_state = np.ones((row_size, column_size), dtype=int)
+                st.session_state.game = game
+                st.session_state.init_flag = 1
+                del st.session_state['ag']
         with c2: 
             if "ag" in st.session_state:
                 ag = st.session_state.ag
@@ -217,87 +172,136 @@ with c1:
                 df = pd.DataFrame.from_records(np.array(game.current_state, dtype=bool))
                 df.columns = [str(a) for a in df.columns]
             
-            # gb = GridOptionsBuilder.from_dataframe(df)
-            # for col in df.columns:
-            #     gb.configure_column(col, editable=True, cellRenderer=checkbox_renderer)
+            gb = GridOptionsBuilder.from_dataframe(df)
+            for col in df.columns:
+                gb.configure_column(col, editable=True, cellRenderer=checkbox_renderer)
             
-            # # st.write('#### interface')
-            # ag = AgGrid(
-            #     df, 
-            #     gridOptions=gb.build(),
-            #     fit_columns_on_grid_load=True,
-            #     update_mode=GridUpdateMode.MANUAL,
-            #     allow_unsafe_jscode=True,
-            #     enable_enterprise_modules=False,
-            #     theme='alpine',
-            # )
-            # st.session_state.ag = ag
+            # st.write('#### interface')
+            ag = AgGrid(
+                df, 
+                gridOptions=gb.build(),
+                fit_columns_on_grid_load=True,
+                update_mode=GridUpdateMode.MANUAL,
+                allow_unsafe_jscode=True,
+                enable_enterprise_modules=False,
+                theme='alpine',
+            )
+            st.session_state.ag = ag
 
-    if container.button('Initialize random'):
-        game = GameOfLife(rows=row_size, columns=column_size, prob=prob)
-        st.session_state.game = game
-
-        with c2:
-            if "ag" in st.session_state:
-                ag = st.session_state.ag
-                df = ag['data']
-                # game.current_state = np.array(ag['data'], dtype=int)
-            else:
-                # c12.write(game.current_state)
-                df = pd.DataFrame.from_records(np.array(game.current_state, dtype=bool))
-                df.columns = [str(a) for a in df.columns]
-            
-            # gb = GridOptionsBuilder.from_dataframe(df)
-            # for col in df.columns:
-            #     gb.configure_column(col, editable=True, cellRenderer=checkbox_renderer)
-
-            # # st.write('#### interface')
-            # ag = AgGrid(
-            #     df, 
-            #     gridOptions=gb.build(),
-            #     fit_columns_on_grid_load=True,
-            #     update_mode=GridUpdateMode.MANUAL,
-            #     allow_unsafe_jscode=True,
-            #     enable_enterprise_modules=False,
-            #     theme='alpine',
-            # )
-            # st.session_state.ag = ag
-            # fig, ax = plt.subplots()
-            # ax.imshow(game.current_state, cmap=cmap)
-            # ax.get_xaxis().set_ticks([])
-            # ax.get_yaxis().set_ticks([])
-            # f3.pyplot(fig, clear_figure=False)
-
-with c2:
-    if "ag" in st.session_state:
-        ag = st.session_state.ag
-        df = ag['data']
-        # game.current_state = np.array(ag['data'], dtype=int)
-    else:
-        # c12.write(game.current_state)
-        df = pd.DataFrame.from_records(np.array(game.current_state, dtype=bool))
-        df.columns = [str(a) for a in df.columns]
+if c1.button('Accept Current State'):
     
-    gb = GridOptionsBuilder.from_dataframe(df)
-    for col in df.columns:
-        gb.configure_column(col, editable=True, cellRenderer=checkbox_renderer)
+    # game.update(1)
+    game.current_state = np.array(ag['data'], dtype=int)
+    fig, ax = plt.subplots()
+    ax.imshow(game.current_state, cmap=cmap)
+    ax.get_xaxis().set_ticks([])
+    ax.get_yaxis().set_ticks([])
+    f3.pyplot(fig, clear_figure=False)        
 
-    # st.write('#### interface')
-    ag = AgGrid(
-        df, 
-        gridOptions=gb.build(),
-        fit_columns_on_grid_load=True,
-        update_mode=GridUpdateMode.MANUAL,
-        allow_unsafe_jscode=True,
-        enable_enterprise_modules=False,
-        theme='alpine',
-    )
-    st.session_state.ag = ag
-    # fig, ax = plt.subplots()
-    # ax.imshow(game.current_state, cmap=cmap)
-    # ax.get_xaxis().set_ticks([])
-    # ax.get_yaxis().set_ticks([])
-    # f3.pyplot(fig, clear_figure=False)
+#     if container.button('Initialize') or "init_flag" not in st.session_state:
+#         st.session_state.init_flag = 1
+        
+#         fig, ax = plt.subplots()
+#         ax.imshow(game.current_state, cmap=cmap)
+#         ax.get_xaxis().set_ticks([])
+#         ax.get_yaxis().set_ticks([])
+#         f3.pyplot(fig, clear_figure=False)
+
+#     if container.button('Initialize zeros'):
+#         game = GameOfLife(rows=row_size, columns=column_size, prob=prob, randomize=False)
+#         st.session_state.game = game
+
+#         with c2: 
+#             if "ag" in st.session_state:
+#                 ag = st.session_state.ag
+#                 df = ag['data']
+#                 # game.current_state = np.array(ag['data'], dtype=int)
+#             else:
+#                 # c12.write(game.current_state)
+#                 df = pd.DataFrame.from_records(np.array(game.current_state, dtype=bool))
+#                 df.columns = [str(a) for a in df.columns]
+            
+#             # gb = GridOptionsBuilder.from_dataframe(df)
+#             # for col in df.columns:
+#             #     gb.configure_column(col, editable=True, cellRenderer=checkbox_renderer)
+            
+#             # # st.write('#### interface')
+#             # ag = AgGrid(
+#             #     df, 
+#             #     gridOptions=gb.build(),
+#             #     fit_columns_on_grid_load=True,
+#             #     update_mode=GridUpdateMode.MANUAL,
+#             #     allow_unsafe_jscode=True,
+#             #     enable_enterprise_modules=False,
+#             #     theme='alpine',
+#             # )
+#             # st.session_state.ag = ag
+
+#     if container.button('Initialize random'):
+#         game = GameOfLife(rows=row_size, columns=column_size, prob=prob)
+#         st.session_state.game = game
+
+#         with c2:
+#             if "ag" in st.session_state:
+#                 ag = st.session_state.ag
+#                 df = ag['data']
+#                 # game.current_state = np.array(ag['data'], dtype=int)
+#             else:
+#                 # c12.write(game.current_state)
+#                 df = pd.DataFrame.from_records(np.array(game.current_state, dtype=bool))
+#                 df.columns = [str(a) for a in df.columns]
+            
+#             # gb = GridOptionsBuilder.from_dataframe(df)
+#             # for col in df.columns:
+#             #     gb.configure_column(col, editable=True, cellRenderer=checkbox_renderer)
+
+#             # # st.write('#### interface')
+#             # ag = AgGrid(
+#             #     df, 
+#             #     gridOptions=gb.build(),
+#             #     fit_columns_on_grid_load=True,
+#             #     update_mode=GridUpdateMode.MANUAL,
+#             #     allow_unsafe_jscode=True,
+#             #     enable_enterprise_modules=False,
+#             #     theme='alpine',
+#             # )
+#             # st.session_state.ag = ag
+#             # fig, ax = plt.subplots()
+#             # ax.imshow(game.current_state, cmap=cmap)
+#             # ax.get_xaxis().set_ticks([])
+#             # ax.get_yaxis().set_ticks([])
+#             # f3.pyplot(fig, clear_figure=False)
+
+# with c2:
+#     if "ag" in st.session_state:
+#         ag = st.session_state.ag
+#         df = ag['data']
+#         # game.current_state = np.array(ag['data'], dtype=int)
+#     else:
+#         # c12.write(game.current_state)
+#         df = pd.DataFrame.from_records(np.array(game.current_state, dtype=bool))
+#         df.columns = [str(a) for a in df.columns]
+    
+#     gb = GridOptionsBuilder.from_dataframe(df)
+#     for col in df.columns:
+#         gb.configure_column(col, editable=True, cellRenderer=checkbox_renderer)
+
+#     # st.write('#### interface')
+#     ag = AgGrid(
+#         df, 
+#         gridOptions=gb.build(),
+#         fit_columns_on_grid_load=True,
+#         update_mode=GridUpdateMode.MANUAL,
+#         allow_unsafe_jscode=True,
+#         enable_enterprise_modules=False,
+#         theme='alpine',
+#     )
+#     st.session_state.ag = ag
+#     # fig, ax = plt.subplots()
+#     # ax.imshow(game.current_state, cmap=cmap)
+#     # ax.get_xaxis().set_ticks([])
+#     # ax.get_yaxis().set_ticks([])
+#     # f3.pyplot(fig, clear_figure=False)
 
 
 # # Set up the next button
