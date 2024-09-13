@@ -71,7 +71,7 @@ def animate(i):
     # ax.axis('off')
 
 
-if not os.path.isfile("Intro_gif.gif"):
+if not os.path.isfile("media/Intro_gif.gif"):
     game.randomize()
     ani = animation.FuncAnimation(fig, animate, frames=50, interval=100)
 
