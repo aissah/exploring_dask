@@ -12,6 +12,7 @@ The repo contains the following:
   - makes comparison between dask and OMP and MPI routines - [OMP_MPI_routines](notebooks/3.OMP_MPI_routines.ipynb.ipynb).
   - has the intension of implementing the ising model using dask - [ising_model](notebooks/Incomplete_Ising_model.ipynb).
 - game_of_life_app: contains a simple game of life app that uses dask to parallelize the computation of the next generation of cells.
+- requirements.txt: contains the required packages to run the notebooks and the game of life app.
 - Everything else is supporting files for the notebooks and the game of life app.
 
 ## Game of Life App
