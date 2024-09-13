@@ -11,7 +11,7 @@ from matplotlib import colors
 from matplotlib.animation import PillowWriter
 from st_aggrid import AgGrid, GridOptionsBuilder, GridUpdateMode, JsCode
 
-from game_of_life_module import GameOfLife
+from utils.game_of_life_module import GameOfLife
 
 # Set up the game of life
 if "game" not in st.session_state:
@@ -71,13 +71,13 @@ def animate(i):
     # ax.axis('off')
 
 
-if not os.path.isfile("media/Intro_gif.gif"):
+if not os.path.isfile("bin/Intro_gif.gif"):
     game.randomize()
     ani = animation.FuncAnimation(fig, animate, frames=50, interval=100)
 
     with st.spinner("Preparing animation..."):
         # components.html(ani.to_jshtml(), height=550)
-        ani.save("media/Intro_gif.gif", writer=PillowWriter())
+        ani.save("bin/Intro_gif.gif", writer=PillowWriter())
         # ani.save("GameOLife.gif", writer=PillowWriter())
 
 
@@ -85,7 +85,7 @@ if not os.path.isfile("media/Intro_gif.gif"):
 st.title("Game of Life")
 
 # file_ = open(r"D:\CSM\Mines_Research\Repositories\exploring_dask\Intro_gif.gif", "rb")
-file_ = open(r"media/Intro_gif.gif", "rb")
+file_ = open(r"bin/Intro_gif.gif", "rb")
 contents = file_.read()
 data_url = base64.b64encode(contents).decode("utf-8")
 file_.close()
@@ -238,9 +238,9 @@ with f2.container(border=True):
         with st.spinner("Preparing animation..."):
             # components.html(ani.to_jshtml(), height=550)
             # ani.save('D:\CSM\Mines_Research\Repositories\exploring_dask\GameOLife.gif', writer=PillowWriter())
-            ani.save("media/Current_GameOLife.gif", writer=PillowWriter())
+            ani.save("bin/Current_GameOLife.gif", writer=PillowWriter())
 
-        file_ = open("media/Current_GameOLife.gif", "rb")
+        file_ = open("bin/Current_GameOLife.gif", "rb")
         contents = file_.read()
         data_url = base64.b64encode(contents).decode("utf-8")
         file_.close()
