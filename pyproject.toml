@@ -8,5 +8,8 @@ dependencies = [
     "dask[complete,diagnostics]>=2024.8.2",
     "graphviz>=0.20.3",
     "ipykernel>=6.29.5",
+    "matplotlib>=3.9.2",
     "numpy>=2.1.1",
+    "scipy>=1.14.1",
+    "tqdm>=4.66.5",
 ]
