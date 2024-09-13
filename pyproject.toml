@@ -6,6 +6,7 @@ readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
     "dask[complete,diagnostics]>=2024.8.2",
+    "graphviz>=0.20.3",
     "ipykernel>=6.29.5",
     "numpy>=2.1.1",
 ]
