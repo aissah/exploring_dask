@@ -77,7 +77,7 @@ if not os.path.isfile("Intro_gif.gif"):
 
     with st.spinner("Preparing animation..."):
         # components.html(ani.to_jshtml(), height=550)
-        ani.save("Intro_gif.gif", writer=PillowWriter())
+        ani.save("media/Intro_gif.gif", writer=PillowWriter())
         # ani.save("GameOLife.gif", writer=PillowWriter())
 
 
@@ -85,7 +85,7 @@ if not os.path.isfile("Intro_gif.gif"):
 st.title("Game of Life")
 
 # file_ = open(r"D:\CSM\Mines_Research\Repositories\exploring_dask\Intro_gif.gif", "rb")
-file_ = open(r"Intro_gif.gif", "rb")
+file_ = open(r"media/Intro_gif.gif", "rb")
 contents = file_.read()
 data_url = base64.b64encode(contents).decode("utf-8")
 file_.close()
@@ -238,9 +238,9 @@ with f2.container(border=True):
         with st.spinner("Preparing animation..."):
             # components.html(ani.to_jshtml(), height=550)
             # ani.save('D:\CSM\Mines_Research\Repositories\exploring_dask\GameOLife.gif', writer=PillowWriter())
-            ani.save("Current_GameOLife.gif", writer=PillowWriter())
+            ani.save("media/Current_GameOLife.gif", writer=PillowWriter())
 
-        file_ = open("Current_GameOLife.gif", "rb")
+        file_ = open("media/Current_GameOLife.gif", "rb")
         contents = file_.read()
         data_url = base64.b64encode(contents).decode("utf-8")
         file_.close()
