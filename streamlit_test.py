@@ -17,7 +17,7 @@ def main():
 
     # Display the grid using Plotly
     fig = px.imshow(
-        grid, binary_string=True, labels=dict(color="Click on the cells to toggle")
+        grid, binary_string=True, labels={"color": "Click on the cells to toggle"}
     )
     fig.update_layout(width=400, height=400)
 
