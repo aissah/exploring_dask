@@ -1,0 +1,17 @@
+[project]
+name = "exploring-dask"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "dask[complete,diagnostics]>=2024.8.2",
+    "graphviz>=0.20.3",
+    "ipykernel>=6.29.5",
+    "matplotlib>=3.9.2",
+    "numpy>=2.1.1",
+    "scipy>=1.14.1",
+    "streamlit-aggrid>=1.0.5",
+    "streamlit>=1.38.0",
+    "tqdm>=4.66.5",
+]
