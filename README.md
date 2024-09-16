@@ -17,4 +17,4 @@ The repo contains the following:
 
 ## Game of Life App
 
-The game of life app is intended to be a simple implementation of the game of life using dask. Currently, it there is more focus on developing the webapp than parallelizing. This happened at a point when the write was also exploring the use of streamlit to build webapps. Since then the streamlit project has been separated out and hosted at: <https://funwithstreamlthafiz.streamlit.app/>. The app is a web app that allows users to interact with the game of life.
+The game of life app is intended to be a simple implementation of the game of life using dask. Currently, it there is more focus on developing the webapp than parallelizing. This happened at a point when the write was also exploring the use of streamlit to build webapps. Since then the streamlit project has been separated out and hosted at: <https://funwithstreamlthafiz.streamlit.app/>. The app is a web app that allows users to interact with the game of life. The local version of the app can be run by running the following on the terminal: `streamlit run game_of_life_app/app.py`.
